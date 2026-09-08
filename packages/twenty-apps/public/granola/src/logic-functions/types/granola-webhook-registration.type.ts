@@ -8,4 +8,5 @@ export type GranolaWebhookRegistration = {
   scopes: GranolaWebhookScope[];
   folderIds: string[];
   isActive: boolean;
+  isInitialBackfillEnqueued: boolean;
 };
