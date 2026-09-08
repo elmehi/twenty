@@ -2,7 +2,10 @@ import { defineUninstallLogicFunction } from 'twenty-sdk/define';
 import { kv } from 'twenty-sdk/logic-function';
 import { isDefined } from 'twenty-sdk/utils';
 
-import { GRANOLA_WEBHOOK_REGISTRATION_KEY } from 'src/constants/granola.constant';
+import {
+  GRANOLA_HISTORY_SCHEDULE_KEY,
+  GRANOLA_WEBHOOK_REGISTRATION_KEY,
+} from 'src/constants/granola.constant';
 import { GRANOLA_UNINSTALL_UNIVERSAL_IDENTIFIER } from 'src/constants/universal-identifiers';
 import { type GranolaWebhookRegistration } from 'src/logic-functions/types/granola-webhook-registration.type';
 import { cleanupPendingGranolaRegistrationOrThrow } from 'src/logic-functions/utils/cleanup-pending-granola-registration-or-throw.util';
@@ -34,6 +37,7 @@ export const granolaUninstallHandler = async () => {
       `[granola] Could not clean up the pending registration during uninstall; check Granola webhook settings. ${toErrorMessage(error)}`,
     );
   }
+  await kv.delete(GRANOLA_HISTORY_SCHEDULE_KEY);
   const registration = await kv.get<GranolaWebhookRegistration>(
     GRANOLA_WEBHOOK_REGISTRATION_KEY,
   );
